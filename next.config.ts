@@ -6,11 +6,6 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: path.join(__dirname),
   },
-  // Lint'i build sürecinden ayır: sunucuda build, ignore-scripts ile atlanan
-  // ESLint resolver'ına (unrs-resolver) takılmasın. Lint'i "npm run lint" ile yap.
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
 };
 
 export default nextConfig;
