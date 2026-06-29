@@ -105,6 +105,7 @@ export function SiteHeader() {
             type="button"
             aria-label={open ? "Menüyü kapat" : "Menüyü aç"}
             aria-expanded={open}
+            aria-controls="mobil-menu"
             onClick={() => setOpen((v) => !v)}
             className="inline-flex size-11 items-center justify-center rounded-full border border-foreground/10 bg-foreground/5 text-foreground transition-colors hover:bg-foreground/10"
           >
@@ -115,9 +116,13 @@ export function SiteHeader() {
 
       {/* Mobil menü paneli */}
       <div
+        id="mobil-menu"
+        inert={!open}
         className={cn(
-          "overflow-hidden border-t border-foreground/10 glass-surface transition-[max-height,opacity] duration-300 lg:hidden",
-          open ? "max-h-[28rem] opacity-100" : "max-h-0 opacity-0",
+          "border-t border-foreground/10 glass-surface transition-[max-height,opacity] duration-300 lg:hidden",
+          open
+            ? "max-h-[calc(100svh-4rem)] overflow-y-auto opacity-100"
+            : "max-h-0 overflow-hidden opacity-0",
         )}
       >
         <nav className="mx-auto flex w-full max-w-7xl flex-col gap-1 px-5 py-5 sm:px-8">

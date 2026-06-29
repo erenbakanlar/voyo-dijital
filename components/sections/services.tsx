@@ -22,7 +22,8 @@ function ServiceCard({ service }: { service: Service }) {
       </div>
       <Link
         href={service.href}
-        className="inline-flex items-center gap-1.5 text-sm font-semibold text-voyo-orange transition-colors hover:text-voyo-orange-300"
+        aria-label={`${service.title} hizmetini detaylı incele`}
+        className="inline-flex items-center gap-1.5 text-sm font-semibold text-voyo-orange-ink transition-colors hover:text-voyo-orange-300"
       >
         Detaylı İncele
         <ArrowRight className="size-4 transition-transform group-hover/card:translate-x-1" />

@@ -2,6 +2,9 @@ import {
   BarChart3,
   Camera,
   Code2,
+  CreditCard,
+  Nfc,
+  Sticker,
   Globe2,
   Headphones,
   LayoutGrid,
@@ -20,12 +23,11 @@ export const site = {
   phoneHref: "tel:+905393815726",
   whatsappHref:
     "https://wa.me/905393815726?text=Merhaba%20VOYO,%20bir%20teklif%20almak%20istiyorum.",
-  email: "info@voyoajans.com",
+  email: "info@voyo.com.tr",
   location: "Antalya, Muratpaşa",
   hours: "Pazartesi–Cuma: 09:00–18:00",
   socials: {
     instagram: "https://www.instagram.com/voyodijital/",
-    linkedin: "https://linkedin.com/",
     whatsapp:
       "https://wa.me/905393815726?text=Merhaba%20VOYO,%20bir%20teklif%20almak%20istiyorum.",
   },
@@ -48,6 +50,8 @@ export const navLinks = [
   { label: "Hizmetler", href: "/#hizmetler" },
   { label: "Hakkımızda", href: "/#hakkimizda" },
   { label: "Ekip", href: "/#ekip" },
+  { label: "NFC Yorum", href: "/nfc-yorum" },
+  { label: "Blog", href: "/blog" },
   { label: "İletişim", href: "/#iletisim" },
 ];
 
@@ -304,6 +308,189 @@ export const services: Service[] = [
   },
 ];
 
+/** Hizmet sayfaları için SEO meta verisi (slug -> başlık/açıklama/anahtar kelimeler) */
+export type ServiceSeo = {
+  /** <title> (template'i atlar, tam başlık) */
+  title: string;
+  /** meta description (<=160 karakter) */
+  description: string;
+  /** Birincil yerel anahtar kelime (eyebrow + içerik) */
+  primary: string;
+  /** İkincil anahtar kelimeler (keywords meta + içerik) */
+  secondary: string[];
+};
+
+export const serviceSeo: Record<string, ServiceSeo> = {
+  "sosyal-medya-yonetimi": {
+    title: "Antalya Sosyal Medya Yönetimi | VOYO Dijital",
+    description:
+      "Antalya'da profesyonel sosyal medya ve Instagram hesap yönetimi. Reels/TikTok içerik üretimi dahil net paketler. Hemen teklif alın.",
+    primary: "Antalya Sosyal Medya Yönetimi",
+    secondary: [
+      "Antalya sosyal medya ajansı",
+      "Instagram hesap yönetimi",
+      "sosyal medya yönetimi paketleri",
+      "Muratpaşa sosyal medya yönetimi",
+      "restoran sosyal medya yönetimi",
+    ],
+  },
+  "reklam-yonetimi": {
+    title: "Antalya Google & Meta Reklam Yönetimi | VOYO",
+    description:
+      "Antalya'da dönüşüm odaklı Google Ads ve Meta (Instagram/Facebook) reklam yönetimi. Şeffaf yönetim ücreti, ölçülebilir ROAS. Teklif alın.",
+    primary: "Antalya Google & Meta Reklam Yönetimi",
+    secondary: [
+      "Antalya Google Ads ajansı",
+      "Antalya meta reklam ajansı",
+      "instagram reklam ajansı Antalya",
+      "google ads danışmanı Antalya",
+      "performans pazarlama ajansı Antalya",
+    ],
+  },
+  "web-tasarimi": {
+    title: "Antalya Web Tasarım | Hızlı, SEO Uyumlu Site",
+    description:
+      "Antalya'da mobil uyumlu, hızlı ve SEO uyumlu kurumsal web sitesi tasarımı. Şeffaf fiyat, modern altyapı. Ücretsiz teklif alın.",
+    primary: "Antalya Web Tasarım",
+    secondary: [
+      "Antalya web tasarım fiyatları",
+      "kurumsal web tasarım Antalya",
+      "web sitesi yapımı Antalya",
+      "Muratpaşa web tasarım",
+      "SEO uyumlu web tasarım",
+    ],
+  },
+  "foto-video-cekim": {
+    title: "Antalya Foto & Video Çekim | Ürün, Tanıtım, Drone",
+    description:
+      "Antalya'da profesyonel ürün fotoğrafı, tanıtım filmi, drone ve sosyal medya video çekimi. E-ticaret ve otel/restoran için içerik. Teklif alın.",
+    primary: "Antalya Fotoğraf & Video Çekim",
+    secondary: [
+      "Antalya ürün fotoğraf çekimi",
+      "Antalya tanıtım filmi çekimi",
+      "Antalya drone çekimi",
+      "Antalya video prodüksiyon",
+      "Antalya e-ticaret ürün çekimi",
+    ],
+  },
+  "yazilim-cozumleri": {
+    title: "Antalya Yazılım & Mobil Uygulama Geliştirme | VOYO",
+    description:
+      "Antalya'da işletmenize özel yazılım, mobil uygulama, CRM ve otomasyon geliştirme. Turizm ve restoran sektörüne özel çözümler. Teklif alın.",
+    primary: "Antalya Yazılım Çözümleri",
+    secondary: [
+      "Antalya yazılım firması",
+      "özel yazılım geliştirme Antalya",
+      "Antalya mobil uygulama geliştirme",
+      "özel e-ticaret yazılımı",
+      "işletmeye özel otomasyon yazılımı",
+    ],
+  },
+};
+
+/** Yerel SEO için hedef ilçe/bölgeler — hizmet sayfalarındaki "Hizmet Bölgeleri" bloğu */
+export const serviceRegions = [
+  "Muratpaşa",
+  "Konyaaltı",
+  "Lara",
+  "Kepez",
+  "Aksu",
+];
+
+/** Hizmet sayfası SSS'leri (slug -> Q&A). Soru-tipi aramalar + FAQPage zengin sonuç. */
+export const serviceFaqs: Record<string, { q: string; a: string }[]> = {
+  "sosyal-medya-yonetimi": [
+    {
+      q: "Antalya'da sosyal medya yönetimi ücretleri ne kadar?",
+      a: "Ücret; platform sayısına, içerik hacmine ve hedeflerinize göre belirlenen aylık paketlerle çalışır. Gizli maliyet yoktur — net teklif için WhatsApp'tan ulaşın.",
+    },
+    {
+      q: "Hangi platformları yönetiyorsunuz?",
+      a: "Instagram, Facebook, TikTok, LinkedIn, X ve YouTube. İşletmenize en uygun platformlarda yoğunlaşarak verimi yükseltiriz.",
+    },
+    {
+      q: "İçerikleri (görsel/video/metin) siz mi üretiyorsunuz?",
+      a: "Evet. Grafik tasarım, Reels/video prodüksiyon, metin yazarlığı ve aylık içerik takvimi dahil tüm üretim bize aittir.",
+    },
+    {
+      q: "Çalışmaya kaç günde başlıyorsunuz?",
+      a: "Anlaşma sonrası genellikle 3-5 iş günü içinde strateji ve ilk içerik takvimiyle yayına başlarız.",
+    },
+  ],
+  "reklam-yonetimi": [
+    {
+      q: "Reklam yönetim ücreti ile reklam bütçesi farkı nedir?",
+      a: "Reklam bütçesi doğrudan Google/Meta'ya ödediğiniz tutardır; yönetim ücreti ise kampanyaların kurulum, optimizasyon ve raporlaması için bizim şeffaf hizmet bedelimizdir. İkisi ayrıdır.",
+    },
+    {
+      q: "Google Ads mı, Meta (Instagram) reklamı mı bana uygun?",
+      a: "Hedefe göre değişir: anlık talep/arama için Google Ads, marka bilinirliği ve görsel ürünler için Meta öne çıkar. Çoğu işletmede ikisini birlikte kurgularız.",
+    },
+    {
+      q: "Sonuçları nasıl ölçüyorsunuz?",
+      a: "Dönüşüm takibi kurar; ROAS, dönüşüm başına maliyet ve tıklama gibi metriklerle düzenli, anlaşılır rapor sunarız.",
+    },
+    {
+      q: "Minimum reklam bütçesi gerekiyor mu?",
+      a: "Sektöre ve rekabete göre değişir. Size uygun başlangıç bütçesini ücretsiz ön görüşmede birlikte belirleriz.",
+    },
+  ],
+  "web-tasarimi": [
+    {
+      q: "Antalya'da web sitesi yaptırmak ne kadar?",
+      a: "Sayfa sayısı, özellikler (e-ticaret, randevu, çoklu dil vb.) ve içerik durumuna göre değişir. Şeffaf, sabit fiyatlı teklif veririz.",
+    },
+    {
+      q: "Web sitesi kaç günde hazır olur?",
+      a: "Kurumsal tanıtım siteleri genellikle 1-3 hafta içinde tamamlanır; kapsamlı projeler içerik hazırlığına göre değişir.",
+    },
+    {
+      q: "Siteler mobil ve SEO uyumlu mu?",
+      a: "Evet. Tüm siteler mobil öncelikli, hızlı modern altyapıyla ve temel SEO ayarlarıyla (başlık, açıklama, schema, sitemap) teslim edilir.",
+    },
+    {
+      q: "İçerik ve görselleri siz mi hazırlıyorsunuz?",
+      a: "İsterseniz metin yazarlığı ve profesyonel fotoğraf/video çekimini de aynı pakette sunabiliriz — tek elden çözüm.",
+    },
+  ],
+  "foto-video-cekim": [
+    {
+      q: "Antalya ürün fotoğraf çekimi fiyatları ne kadar?",
+      a: "Ürün sayısı, çekim türü (stüdyo/mekan) ve teslim formatına göre belirlenir. Net teklif için ürünlerinizi ve ihtiyacınızı paylaşmanız yeterli.",
+    },
+    {
+      q: "Hangi çekim türlerini yapıyorsunuz?",
+      a: "Ürün fotoğrafı, tanıtım filmi, sosyal medya videosu (Reels/TikTok), drone çekimi ve e-ticaret (Trendyol/Hepsiburada uyumlu) çekimleri.",
+    },
+    {
+      q: "Çekim nerede yapılıyor?",
+      a: "Stüdyoda ya da işletmenizde/mekanda yapabiliyoruz; Antalya merkez ve ilçelerinde hizmet veriyoruz.",
+    },
+    {
+      q: "Görseller reklam ve sosyal medyada kullanılabilir mi?",
+      a: "Evet. Çekimleri doğrudan sosyal medya ve reklam kampanyalarınıza entegre ederek tek pakette değerlendirebiliriz.",
+    },
+  ],
+  "yazilim-cozumleri": [
+    {
+      q: "Özel yazılım mı, hazır paket mi tercih etmeliyim?",
+      a: "Standart ihtiyaçlar için hazır çözümler hızlı ve ekonomiktir; işinize özel akış, entegrasyon veya rekabet avantajı gerekiyorsa özel yazılım daha doğrudur. Ücretsiz analizle yönlendiririz.",
+    },
+    {
+      q: "Mobil uygulama yaptırmak ne kadar?",
+      a: "Özellik kapsamına (üyelik, ödeme, panel, bildirim vb.) ve platform sayısına göre değişir. Net bütçeyi gereksinim analizinden sonra veririz.",
+    },
+    {
+      q: "Neler geliştiriyorsunuz?",
+      a: "İşletmeye özel web uygulamaları, mobil uygulamalar, CRM, otomasyon sistemleri ve e-ticaret entegrasyonları.",
+    },
+    {
+      q: "Teslim sonrası destek veriyor musunuz?",
+      a: "Evet. Bakım, güncelleme ve teknik destek paketleriyle yazılımınızın sürekliliğini sağlıyoruz.",
+    },
+  ],
+};
+
 export type Advantage = {
   no: string;
   icon: LucideIcon;
@@ -374,7 +561,7 @@ export const team: TeamMember[] = [
     bio: "Hızlı yüklenen, SEO uyumlu ve dönüşüm odaklı dijital altyapılar geliştirir.",
     phone: "0539 381 57 26",
     phoneHref: "tel:+905393815726",
-    email: "erenbakanlar@hotmail.com",
+    email: "info@voyo.com.tr",
   },
   {
     slug: "mehmet-kaya",
@@ -384,7 +571,7 @@ export const team: TeamMember[] = [
     bio: "Meta ve Google Ads kampanyalarıyla markaları doğru kitleyle buluşturur.",
     phone: "0553 711 65 67",
     phoneHref: "tel:+905537116567",
-    email: "mehmet.rock07@icloud.com",
+    email: "info@voyo.com.tr",
   },
   {
     slug: "baha-turgut",
@@ -394,7 +581,7 @@ export const team: TeamMember[] = [
     bio: "Markaların görsel kimliğini güçlü bir estetik dille hayata geçirir.",
     phone: "0534 552 48 48",
     phoneHref: "tel:+905345524848",
-    email: "bahaturgut703@gmail.com",
+    email: "info@voyo.com.tr",
   },
   {
     slug: "emir-er",
@@ -404,7 +591,114 @@ export const team: TeamMember[] = [
     bio: "Drone ve sinematik çekim teknikleriyle markaların hikâyesini görselleştirir.",
     phone: "0541 630 28 43",
     phoneHref: "tel:+905416302843",
-    email: "eremir0723@gmail.com",
+    email: "info@voyo.com.tr",
+  },
+];
+
+export type Faq = {
+  q: string;
+  a: string;
+};
+
+export const faqs: Faq[] = [
+  {
+    q: "VOYO hangi hizmetleri sunuyor?",
+    a: "Sosyal medya yönetimi, Meta & Google reklam yönetimi, web tasarımı ve yazılım çözümleri, profesyonel fotoğraf & video çekim. Markanızın tüm dijital ihtiyaçlarını tek çatı altında, tek ekiple karşılıyoruz.",
+  },
+  {
+    q: "Sadece tek bir hizmet alabilir miyim, yoksa paket şart mı?",
+    a: "İster tek bir hizmet ister birkaçını birlikte alabilirsiniz. Çözümlerimiz ihtiyacınıza göre esnektir; size yalnızca gerçekten ihtiyacınız olanı öneririz.",
+  },
+  {
+    q: "Çalışma süreciniz nasıl ilerliyor?",
+    a: "Ücretsiz bir keşif görüşmesiyle başlarız. Hedeflerinizi dinler, size özel bir strateji ve teklif hazırlarız. Onay sonrası içerikleri üretir, yayınlar ve sonuçları düzenli olarak ölçüp raporlarız.",
+  },
+  {
+    q: "Fiyatlandırma nasıl belirleniyor?",
+    a: "Sabit liste yerine; hizmet kapsamı, içerik hacmi ve hedeflerinize göre projeye özel fiyatlandırma yaparız. Net rakam, ücretsiz keşif görüşmesinin ardından çıkarılan teklifte belli olur.",
+  },
+  {
+    q: "Antalya dışındaki işletmelerle çalışıyor musunuz?",
+    a: "Evet. Sosyal medya, reklam ve yazılım hizmetlerini Türkiye'nin her yerinden uzaktan yürütüyoruz. Yerinde çekim gerektiren işlerde Antalya ve çevresinde sahadayız.",
+  },
+  {
+    q: "Uzun süreli bir taahhüt vermem gerekiyor mu?",
+    a: "Sosyal medya ve reklam yönetimi genelde aylık ilerler; web ve yazılım işleri proje bazlıdır. Uzun vadeli zorunlu taahhüt yoktur — kalıcı sonuçlar için sürekliliği öneririz, ama tercih sizindir.",
+  },
+  {
+    q: "Ne kadar sürede sonuç alırım?",
+    a: "Web ve çekim projelerinde teslim süresi kapsama göre değişir. Reklam ve sosyal medyada ilk veriler birkaç hafta içinde görülmeye başlar; sürdürülebilir büyüme ise düzenli çalışmayla gelir.",
+  },
+];
+
+export type Reference = {
+  /** Marka/işletme adı (logo alt metni ve logosuz durumda görünür). */
+  name: string;
+  /** public/ içindeki logo yolu, örn. "/references/marka.svg". Yoksa ad gösterilir. */
+  logo?: string;
+  /** Karttaki logo boyutu — varsayılan orta. */
+  size?: "xs" | "sm" | "lg" | "xl";
+};
+
+/**
+ * Birlikte çalışılan markalar. Boşken Referanslar bölümü yer tutucu slotlar
+ * gösterir. Gerçek logolar public/references/ altına konup buraya eklenir:
+ *   { name: "Marka Adı", logo: "/references/marka.svg" }
+ */
+export const references: Reference[] = [
+  { name: "ATA Teknoloji", logo: "/references/ata-teknoloji.svg", size: "sm" },
+  { name: "ATADATA", logo: "/references/atadata.png", size: "xs" },
+  { name: "DAIKIN Gözde Teknik", logo: "/references/daikin-gozde-teknik.png" },
+  { name: "Treas", logo: "/references/treas.png" },
+  { name: "Hostlayıcı", logo: "/references/hostlayici.png" },
+  { name: "DuranOğlu Perde", logo: "/references/duranoglu-perde.png" },
+  { name: "Göksu Pet Market", logo: "/references/goksu-pet-market.png", size: "lg" },
+  { name: "Oris Medya", logo: "/references/oris-medya.png" },
+];
+
+export type NfcProduct = {
+  name: string;
+  desc: string;
+  size: string;
+  material: string;
+  thickness: string;
+  icon: LucideIcon;
+  badge?: string;
+};
+
+export const nfcProducts: NfcProduct[] = [
+  {
+    name: "NFC Yorum Kartı",
+    desc: "Cüzdan boyutunda, taşıması kolay. Elden verin ya da masada bırakın; dokunsun, yorum bıraksın.",
+    size: "9 × 6 cm",
+    material: "Pleksi",
+    thickness: "Kredi kartı inceliğinde",
+    icon: CreditCard,
+  },
+  {
+    name: "NFC Stand",
+    desc: "Masaüstü stand. Kasaya ya da masaya koyun; müşteriniz telefonunu dokundursun.",
+    size: "9 × 12 cm",
+    material: "Pleksi",
+    thickness: "4 mm",
+    icon: Nfc,
+  },
+  {
+    name: "Premium NFC Stand",
+    desc: "Standın daha şık, üst segment versiyonu — aynı boyut, premium görünüm.",
+    size: "9 × 12 cm",
+    material: "Pleksi",
+    thickness: "4 mm",
+    icon: Sparkles,
+    badge: "Premium",
+  },
+  {
+    name: "Yapıştırmalı NFC Kare",
+    desc: "Stand ile aynı işlev, yapıştırmalı kare formda. Masaya ya da vitrine yapıştırın.",
+    size: "8 × 8 cm",
+    material: "Pleksi",
+    thickness: "4 mm",
+    icon: Sticker,
   },
 ];
 

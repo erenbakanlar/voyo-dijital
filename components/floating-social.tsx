@@ -19,7 +19,11 @@ export function FloatingSocial() {
         aria-label="WhatsApp'tan yazın"
         className="group relative flex size-12 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg shadow-black/25 transition-transform duration-300 hover:scale-110 sm:size-14"
       >
-        <span className="absolute inline-flex size-full animate-ping rounded-full bg-[#25D366] opacity-40 motion-reduce:hidden" />
+        <span
+          className="absolute inline-flex size-full animate-ping rounded-full bg-[#25D366] opacity-40 motion-reduce:hidden"
+          style={{ animationIterationCount: 4 }}
+          aria-hidden
+        />
         <span className={tooltip}>WhatsApp&apos;tan Yaz</span>
         <WhatsappIcon className="relative size-7" />
       </a>

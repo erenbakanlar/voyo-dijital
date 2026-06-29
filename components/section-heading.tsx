@@ -27,7 +27,7 @@ export function SectionHeading({
       {eyebrow && (
         <Reveal
           as="span"
-          className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.22em] text-voyo-orange"
+          className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.22em] text-voyo-orange-ink"
         >
           <span className="h-px w-6 bg-voyo-orange/60" aria-hidden />
           {eyebrow}

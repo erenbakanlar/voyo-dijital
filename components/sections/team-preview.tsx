@@ -42,7 +42,7 @@ export function TeamPreview() {
                   <h3 className="text-lg font-bold leading-tight tracking-tight text-foreground">
                     {member.name}
                   </h3>
-                  <p className="text-sm font-medium text-voyo-orange">
+                  <p className="text-sm font-medium text-voyo-orange-ink">
                     {member.role}
                   </p>
                   <p className="mt-1 text-sm leading-relaxed text-muted-foreground">

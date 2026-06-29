@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Quote, Star } from "lucide-react";
+import { Quote, Star, Pause, Play } from "lucide-react";
 import {
   Carousel,
   CarouselContent,
@@ -21,6 +21,7 @@ export function Testimonials() {
   const [count, setCount] = React.useState(0);
   const [scrollable, setScrollable] = React.useState(false);
   const paused = React.useRef(false);
+  const [userPaused, setUserPaused] = React.useState(false);
 
   React.useEffect(() => {
     if (!api) return;
@@ -48,16 +49,16 @@ export function Testimonials() {
     if (prefersReduced) return;
 
     const id = setInterval(() => {
-      if (!paused.current) api.scrollNext();
+      if (!paused.current && !userPaused && !document.hidden) api.scrollNext();
     }, 5000);
     return () => clearInterval(id);
-  }, [api]);
+  }, [api, userPaused]);
 
   return (
-    <section className="relative scroll-mt-20 border-t border-foreground/10 bg-surface-sunken py-16 sm:py-24 lg:scroll-mt-24 lg:py-32">
+    <section className="relative border-t border-foreground/10 bg-surface-sunken py-16 sm:py-24 lg:py-32">
       <div className="mx-auto w-full max-w-7xl px-5 sm:px-8">
         <SectionHeading
-          eyebrow="Referanslar"
+          eyebrow="Yorumlar"
           title="Müşterilerimiz Anlatıyor"
           subtitle="Birlikte büyüdüğümüz işletmelerin deneyimleri."
         />
@@ -69,6 +70,8 @@ export function Testimonials() {
             className="w-full"
             onMouseEnter={() => (paused.current = true)}
             onMouseLeave={() => (paused.current = false)}
+            onFocusCapture={() => (paused.current = true)}
+            onBlurCapture={() => (paused.current = false)}
           >
             <CarouselContent className="-ml-5">
               {testimonials.map((t, i) => (
@@ -133,6 +136,22 @@ export function Testimonials() {
                   ))}
                 </div>
                 <CarouselNext className="static inset-y-auto right-auto my-0 size-11 border-foreground/15 bg-foreground/5 text-foreground hover:bg-foreground/10" />
+                <button
+                  type="button"
+                  onClick={() => setUserPaused((v) => !v)}
+                  aria-label={
+                    userPaused
+                      ? "Otomatik geçişi başlat"
+                      : "Otomatik geçişi duraklat"
+                  }
+                  className="inline-flex size-11 items-center justify-center rounded-full border border-foreground/15 bg-foreground/5 text-foreground transition-colors hover:bg-foreground/10"
+                >
+                  {userPaused ? (
+                    <Play className="size-4" />
+                  ) : (
+                    <Pause className="size-4" />
+                  )}
+                </button>
               </div>
             )}
           </Carousel>

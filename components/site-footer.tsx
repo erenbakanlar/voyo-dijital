@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Phone, MapPin, Clock } from "lucide-react";
+import { Phone, Mail, MapPin, Clock } from "lucide-react";
 import { InstagramIcon, WhatsappIcon } from "@/components/icons/social";
 import { navLinks, site } from "@/lib/site-data";
 import { BrandMark } from "@/components/brand-mark";
@@ -40,7 +40,7 @@ export function SiteFooter() {
 
         {/* Orta: Hızlı linkler */}
         <div className="flex flex-col gap-4">
-          <h3 className="text-sm font-semibold uppercase tracking-wider text-foreground/50">
+          <h3 className="text-sm font-semibold uppercase tracking-wider text-foreground/70">
             Hızlı Linkler
           </h3>
           <ul className="flex flex-col gap-2.5">
@@ -59,7 +59,7 @@ export function SiteFooter() {
 
         {/* Sağ: İletişim */}
         <div className="flex flex-col gap-4">
-          <h3 className="text-sm font-semibold uppercase tracking-wider text-foreground/50">
+          <h3 className="text-sm font-semibold uppercase tracking-wider text-foreground/70">
             İletişim
           </h3>
           <ul className="flex flex-col gap-3.5 text-sm text-muted-foreground">
@@ -70,6 +70,16 @@ export function SiteFooter() {
                 className="group inline-flex items-center gap-3 transition-colors hover:text-foreground"
               >
                 <Phone className="size-4 text-voyo-orange" />
+              </ContactLink>
+            </li>
+            <li>
+              <ContactLink
+                encodedHref={encodeContact(`mailto:${site.email}`)}
+                encodedLabel={encodeContact(site.email)}
+                placeholder="••••••@••••••"
+                className="group inline-flex items-center gap-3 break-all transition-colors hover:text-foreground"
+              >
+                <Mail className="size-4 text-voyo-orange" />
               </ContactLink>
             </li>
             <li className="inline-flex items-center gap-3">
@@ -85,9 +95,22 @@ export function SiteFooter() {
       </div>
 
       <div className="border-t border-foreground/10">
-        <div className="mx-auto flex w-full max-w-7xl flex-col items-center justify-between gap-2 px-5 py-6 text-xs text-foreground/40 sm:flex-row sm:px-8">
-          <p>© {new Date().getFullYear()} VOYO — Tüm hakları saklıdır.</p>
-          <p>{site.slogan}</p>
+        <div className="mx-auto flex w-full max-w-7xl flex-col items-center justify-between gap-3 px-5 py-6 text-xs text-muted-foreground sm:flex-row sm:px-8">
+          <p>© {new Date().getFullYear()} VOYO Dijital — Tüm hakları saklıdır.</p>
+          <nav className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1">
+            <Link
+              href="/gizlilik-politikasi"
+              className="transition-colors hover:text-foreground"
+            >
+              Gizlilik Politikası
+            </Link>
+            <Link
+              href="/cerez-politikasi"
+              className="transition-colors hover:text-foreground"
+            >
+              Çerez Politikası
+            </Link>
+          </nav>
         </div>
       </div>
     </footer>

@@ -44,7 +44,7 @@ export function WhyVoyo() {
           items={advantages.map((adv) => (
             <div
               key={adv.no}
-              className="group relative flex h-full flex-col gap-4 rounded-2xl bg-card p-7 ring-1 ring-foreground/10"
+              className="group relative flex h-full flex-col gap-4 rounded-2xl bg-background p-7 ring-1 ring-foreground/10"
             >
               <AdvantageInner adv={adv} />
             </div>

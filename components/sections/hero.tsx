@@ -7,7 +7,7 @@ export function Hero() {
   return (
     <section
       id="anasayfa"
-      className="relative isolate flex min-h-[100svh] flex-col overflow-hidden"
+      className="relative isolate flex min-h-[100svh] scroll-mt-24 flex-col overflow-hidden lg:scroll-mt-28"
     >
       {/* Arka plan katmanları */}
       <div className="pointer-events-none absolute inset-0 -z-10 bg-radial-glow" />
@@ -66,7 +66,7 @@ export function Hero() {
           {services.map((service) => (
             <span
               key={service.title}
-              className="inline-flex items-center gap-2 text-sm text-foreground/45"
+              className="inline-flex items-center gap-2 text-sm text-foreground/70"
             >
               <service.icon className="size-4 text-voyo-orange/80" />
               {service.title.replace("Meta & Google ", "").replace(

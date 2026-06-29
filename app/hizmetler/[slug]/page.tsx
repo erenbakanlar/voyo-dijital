@@ -1,7 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, ArrowRight, Check, Phone, Mail } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  Check,
+  ChevronDown,
+  Phone,
+  Mail,
+} from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { ContactCta } from "@/components/sections/contact-cta";
@@ -13,6 +20,9 @@ import { encodeContact } from "@/lib/contact";
 import {
   getServiceBySlug,
   getTeamBySlug,
+  serviceFaqs,
+  serviceRegions,
+  serviceSeo,
   services,
   site,
   whatsappForService,
@@ -32,13 +42,19 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const service = getServiceBySlug(slug);
-  if (!service) return { title: "Hizmet Bulunamadı" };
+  if (!service)
+    return { title: "Hizmet Bulunamadı", robots: { index: false } };
+  const seo = serviceSeo[slug];
+  const description = seo?.description ?? service.detail.intro[0];
   return {
-    title: service.title,
-    description: service.detail.intro[0],
+    title: seo ? { absolute: seo.title } : service.title,
+    description,
+    keywords: seo?.secondary,
+    alternates: { canonical: `/hizmetler/${slug}` },
     openGraph: {
-      title: `${service.title} | VOYO`,
-      description: service.detail.intro[0],
+      title: seo?.title ?? `${service.title} | VOYO`,
+      description,
+      url: `/hizmetler/${slug}`,
     },
   };
 }
@@ -64,10 +80,58 @@ export default async function ServiceDetailPage({
     .filter((m): m is NonNullable<typeof m> => Boolean(m));
   const otherServices = services.filter((s) => s.slug !== service.slug);
 
+  const seo = serviceSeo[service.slug];
+  const baseUrl = "https://voyo.com.tr";
+  const pageUrl = `${baseUrl}/hizmetler/${service.slug}`;
+  const serviceJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: seo?.primary ?? service.title,
+    serviceType: service.title,
+    description: seo?.description ?? service.detail.intro[0],
+    url: pageUrl,
+    provider: {
+      "@type": "ProfessionalService",
+      name: "VOYO Dijital",
+      url: baseUrl,
+    },
+    areaServed: ["Antalya", ...serviceRegions].map((name) => ({
+      "@type": "AdministrativeArea",
+      name,
+    })),
+  };
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Anasayfa", item: baseUrl },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Hizmetler",
+        item: `${baseUrl}/#hizmetler`,
+      },
+      { "@type": "ListItem", position: 3, name: service.title, item: pageUrl },
+    ],
+  };
+  const faqs = serviceFaqs[service.slug] ?? [];
+  const faqJsonLd =
+    faqs.length > 0
+      ? {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: faqs.map((f) => ({
+            "@type": "Question",
+            name: f.q,
+            acceptedAnswer: { "@type": "Answer", text: f.a },
+          })),
+        }
+      : null;
+
   return (
     <>
       <SiteHeader />
-      <main>
+      <main id="main">
         {/* ===== Üst bölüm / Hero ===== */}
         <section className="relative isolate overflow-hidden pt-28 pb-12 sm:pt-32 sm:pb-16 lg:pt-40">
           <div className="pointer-events-none absolute inset-0 -z-10 bg-radial-glow" />
@@ -95,9 +159,9 @@ export default async function ServiceDetailPage({
             <Reveal
               as="span"
               delay={100}
-              className="mt-6 block text-xs font-semibold uppercase tracking-[0.2em] text-voyo-orange"
+              className="mt-6 block text-xs font-semibold uppercase tracking-[0.2em] text-voyo-orange-ink"
             >
-              {service.title}
+              {seo?.primary ?? service.title}
             </Reveal>
 
             <Reveal
@@ -253,7 +317,7 @@ export default async function ServiceDetailPage({
                             <h3 className="font-bold leading-tight text-foreground">
                               {member.name}
                             </h3>
-                            <p className="text-sm font-medium text-voyo-orange">
+                            <p className="text-sm font-medium text-voyo-orange-ink">
                               {member.role}
                             </p>
                             <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
@@ -282,7 +346,7 @@ export default async function ServiceDetailPage({
                     </div>
                     <Link
                       href="/#ekip"
-                      className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-voyo-orange transition-colors hover:text-voyo-orange-300"
+                      className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-voyo-orange-ink transition-colors hover:text-voyo-orange-300"
                     >
                       Tüm ekibi tanı
                       <ArrowRight className="size-4" />
@@ -291,6 +355,59 @@ export default async function ServiceDetailPage({
                 </Reveal>
               </div>
             </aside>
+          </div>
+        </section>
+
+        {/* ===== SSS ===== */}
+        {faqs.length > 0 && (
+          <section className="border-t border-foreground/10 py-12 sm:py-16 lg:py-20">
+            <div className="mx-auto w-full max-w-3xl px-5 sm:px-8">
+              <Reveal>
+                <h2 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+                  Sıkça Sorulan Sorular
+                </h2>
+              </Reveal>
+              <div className="mt-8 flex flex-col gap-3">
+                {faqs.map((f, i) => (
+                  <Reveal as="div" key={f.q} delay={(i % 4) * 50}>
+                    <details className="group rounded-xl bg-card ring-1 ring-foreground/10 [&_summary]:list-none">
+                      <summary className="flex cursor-pointer items-center justify-between gap-4 p-5 font-semibold text-foreground">
+                        {f.q}
+                        <ChevronDown className="size-5 shrink-0 text-voyo-orange transition-transform group-open:rotate-180" />
+                      </summary>
+                      <p className="px-5 pb-5 text-sm leading-relaxed text-muted-foreground">
+                        {f.a}
+                      </p>
+                    </details>
+                  </Reveal>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* ===== Hizmet Bölgeleri (yerel SEO) ===== */}
+        <section className="py-12 lg:py-16">
+          <div className="mx-auto w-full max-w-6xl px-5 sm:px-8">
+            <Reveal>
+              <h2 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+                Hizmet Bölgelerimiz
+              </h2>
+              <p className="mt-3 max-w-2xl text-pretty text-muted-foreground">
+                {seo?.primary ?? service.title} hizmetimizi Antalya merkez ve
+                tüm ilçelerinde sunuyoruz.
+              </p>
+            </Reveal>
+            <Reveal delay={60} className="mt-5 flex flex-wrap gap-2.5">
+              {["Antalya", ...serviceRegions].map((r) => (
+                <span
+                  key={r}
+                  className="rounded-full border border-foreground/10 bg-card px-4 py-2 text-sm font-medium text-foreground/80"
+                >
+                  {r}
+                </span>
+              ))}
+            </Reveal>
           </div>
         </section>
 
@@ -315,7 +432,7 @@ export default async function ServiceDetailPage({
                         <h3 className="font-bold leading-snug tracking-tight text-foreground">
                           {other.title}
                         </h3>
-                        <span className="mt-auto inline-flex items-center gap-1.5 text-sm font-semibold text-voyo-orange">
+                        <span className="mt-auto inline-flex items-center gap-1.5 text-sm font-semibold text-voyo-orange-ink">
                           Detaylı İncele
                           <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
                         </span>
@@ -331,6 +448,20 @@ export default async function ServiceDetailPage({
         <ContactCta />
       </main>
       <SiteFooter />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
+      {faqJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+        />
+      )}
     </>
   );
 }

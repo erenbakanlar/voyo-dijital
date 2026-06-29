@@ -80,7 +80,7 @@ export function Stats() {
     <section className="relative border-y border-foreground/10 bg-muted/40">
       <div
         ref={ref}
-        className="mx-auto grid w-full max-w-6xl grid-cols-2 gap-y-12 px-5 py-16 sm:px-8 lg:grid-cols-4 lg:gap-0"
+        className="mx-auto grid w-full max-w-6xl grid-cols-2 gap-x-6 gap-y-12 px-5 py-16 sm:px-8 lg:grid-cols-4 lg:gap-0"
       >
         {stats.map((stat, i) => (
           <div
