@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { FloatingSocial } from "@/components/floating-social";
+import { Analytics } from "@/components/analytics";
+import { AnalyticsEvents } from "@/components/analytics-events";
 import { services } from "@/lib/site-data";
 
 const inter = Inter({
@@ -136,11 +138,13 @@ export default function RootLayout({
         >
           {children}
           <FloatingSocial />
+          <AnalyticsEvents />
         </ThemeProvider>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
+        <Analytics />
       </body>
     </html>
   );
