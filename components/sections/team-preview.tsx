@@ -23,29 +23,29 @@ export function TeamPreview() {
           subtitle="VOYO, dört alanda uzman dört kişiden oluşuyor. Küçük ama güçlü. Hızlı ama özenli."
         />
 
-        <div className="mt-16 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-16 grid grid-cols-2 gap-4 sm:gap-5 lg:grid-cols-4">
           {team.map((member, i) => (
             <Reveal key={member.name} delay={i * 80}>
               <article className="group flex h-full flex-col overflow-hidden rounded-2xl bg-card ring-1 ring-foreground/10 transition-all duration-300 hover:-translate-y-1.5 hover:ring-voyo-orange/40 hover:shadow-[0_20px_50px_-24px_rgba(245,166,35,0.4)]">
                 {/* Fotoğraf yer tutucu */}
                 <div
-                  className={`relative flex aspect-[4/5] shrink-0 items-center justify-center overflow-hidden bg-gradient-to-br ${avatarGradients[i % avatarGradients.length]}`}
+                  className={`relative flex aspect-square shrink-0 items-center justify-center overflow-hidden bg-gradient-to-br sm:aspect-[4/5] ${avatarGradients[i % avatarGradients.length]}`}
                 >
                   <div className="absolute inset-0 bg-grid opacity-40" />
-                  <span className="relative text-6xl font-extrabold tracking-tight text-foreground/90">
+                  <span className="relative text-4xl font-extrabold tracking-tight text-foreground/90 sm:text-6xl">
                     {member.initials}
                   </span>
                   <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-card to-transparent" />
                 </div>
 
-                <div className="flex flex-1 flex-col gap-2 p-6">
-                  <h3 className="text-lg font-bold leading-tight tracking-tight text-foreground">
+                <div className="flex flex-1 flex-col gap-2 p-4 sm:p-6">
+                  <h3 className="text-base font-bold leading-tight tracking-tight text-foreground sm:text-lg">
                     {member.name}
                   </h3>
                   <p className="text-sm font-medium text-voyo-orange-ink">
                     {member.role}
                   </p>
-                  <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+                  <p className="mt-1 hidden text-sm leading-relaxed text-muted-foreground sm:block">
                     {member.bio}
                   </p>
 

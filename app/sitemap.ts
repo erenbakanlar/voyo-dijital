@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { services } from "@/lib/site-data";
 import { getSortedPosts } from "@/lib/blog-data";
+import { sectorPages } from "@/lib/sector-data";
 
 const base = "https://voyo.com.tr";
 
@@ -25,6 +26,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.7,
     },
+    {
+      url: `${base}/sektorler`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    ...sectorPages.map((s) => ({
+      url: `${base}/sektorler/${s.slug}`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
+    })),
     {
       url: `${base}/blog`,
       lastModified: now,

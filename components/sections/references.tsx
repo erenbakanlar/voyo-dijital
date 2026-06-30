@@ -51,14 +51,14 @@ export function References() {
             const logo = resolveLogo(ref.logo);
             const logoSize =
               ref.size === "xl"
-                ? "max-h-28 max-w-full sm:max-h-32"
+                ? "max-h-24 max-w-full sm:max-h-32"
                 : ref.size === "lg"
-                  ? "max-h-20 max-w-[230px] sm:max-h-24"
+                  ? "max-h-16 max-w-full sm:max-h-24 sm:max-w-[230px]"
                   : ref.size === "sm"
-                    ? "max-h-12 max-w-[150px] sm:max-h-14"
+                    ? "max-h-11 max-w-full sm:max-h-14 sm:max-w-[150px]"
                     : ref.size === "xs"
-                      ? "max-h-10 max-w-[120px] sm:max-h-12"
-                      : "max-h-16 max-w-[210px] sm:max-h-20";
+                      ? "max-h-9 max-w-full sm:max-h-12 sm:max-w-[120px]"
+                      : "max-h-14 max-w-full sm:max-h-20 sm:max-w-[210px]";
             return (
               <Reveal key={ref.name} delay={(i % 4) * 60}>
                 <div className="group relative flex h-36 items-center justify-center overflow-hidden rounded-2xl bg-[#0f1117] px-4 ring-1 ring-white/10 transition-all duration-300 hover:-translate-y-1 hover:ring-voyo-orange/40 sm:h-40">
@@ -68,7 +68,7 @@ export function References() {
                       <img
                         src={logo}
                         alt={ref.name}
-                        className={`${logoSize} w-auto object-contain brightness-0 invert transition duration-300 group-hover:-translate-y-3 group-hover:brightness-100 group-hover:invert-0`}
+                        className={`${logoSize} w-auto object-contain transition duration-300 [@media(hover:hover)]:brightness-0 [@media(hover:hover)]:invert group-hover:-translate-y-3 group-hover:brightness-100 group-hover:invert-0`}
                       />
                       <span className="pointer-events-none absolute inset-x-0 bottom-0 translate-y-1 bg-gradient-to-t from-[#0f1117] via-[#0f1117]/90 to-transparent px-3 pb-3.5 pt-7 text-center text-sm font-semibold text-white opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
                         {ref.name}

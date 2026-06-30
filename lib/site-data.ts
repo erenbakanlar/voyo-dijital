@@ -25,7 +25,7 @@ export const site = {
     "https://wa.me/905393815726?text=Merhaba%20VOYO,%20bir%20teklif%20almak%20istiyorum.",
   email: "info@voyo.com.tr",
   location: "Antalya, Muratpaşa",
-  hours: "Pazartesi–Cuma: 09:00–18:00",
+  hours: "Haftanın 7 günü - 7/24 sizlere hizmet vermekteyiz.",
   socials: {
     instagram: "https://www.instagram.com/voyodijital/",
     whatsapp:

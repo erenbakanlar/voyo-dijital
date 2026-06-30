@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Phone, Mail, MapPin, Clock } from "lucide-react";
 import { InstagramIcon, WhatsappIcon } from "@/components/icons/social";
 import { navLinks, site } from "@/lib/site-data";
+import { sectorPages } from "@/lib/sector-data";
 import { BrandMark } from "@/components/brand-mark";
 import { ContactLink } from "@/components/contact-link";
 import { encodeContact } from "@/lib/contact";
@@ -14,7 +15,7 @@ const socialLinks = [
 export function SiteFooter() {
   return (
     <footer className="relative border-t border-foreground/10 bg-surface-sunken">
-      <div className="mx-auto grid w-full max-w-7xl gap-12 px-5 py-16 sm:px-8 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1.2fr] lg:py-20">
+      <div className="mx-auto grid w-full max-w-7xl gap-12 px-5 py-16 sm:px-8 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.2fr] lg:py-20">
         {/* Sol: Logo + açıklama + sosyal */}
         <div className="flex flex-col gap-5">
           <BrandMark showTagline className="h-12" />
@@ -51,6 +52,25 @@ export function SiteFooter() {
                   className="text-sm text-muted-foreground transition-colors hover:text-foreground"
                 >
                   {link.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Sektörler */}
+        <div className="flex flex-col gap-4">
+          <h3 className="text-sm font-semibold uppercase tracking-wider text-foreground/70">
+            Sektörler
+          </h3>
+          <ul className="flex flex-col gap-2.5">
+            {sectorPages.map((s) => (
+              <li key={s.slug}>
+                <Link
+                  href={`/sektorler/${s.slug}`}
+                  className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  {s.name}
                 </Link>
               </li>
             ))}
