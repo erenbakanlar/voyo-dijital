@@ -34,7 +34,7 @@ export async function renderOg(opts: { title: string; eyebrow?: string }) {
   const { title, eyebrow = "Antalya Dijital Ajans" } = opts;
   if (!cachedFonts) cachedFonts = loadFonts();
 
-  return new ImageResponse(
+  const image = new ImageResponse(
     (
       <div
         style={{
@@ -139,4 +139,15 @@ export async function renderOg(opts: { title: string; eyebrow?: string }) {
     ),
     { ...ogSize, fonts: cachedFonts },
   );
+
+  // WhatsApp (ve bazı botlar) Content-Length'siz (chunked) OG görselini
+  // GÖSTERMEZ. Bu yüzden görseli buffer'a alıp açık Content-Length ile döneriz.
+  const buffer = await image.arrayBuffer();
+  return new Response(buffer, {
+    headers: {
+      "Content-Type": "image/png",
+      "Content-Length": String(buffer.byteLength),
+      "Cache-Control": "public, max-age=86400, must-revalidate, no-transform",
+    },
+  });
 }
