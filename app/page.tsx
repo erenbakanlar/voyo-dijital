@@ -3,6 +3,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { Hero } from "@/components/sections/hero";
 import { Stats } from "@/components/sections/stats";
 import { Services } from "@/components/sections/services";
+import { Sectors } from "@/components/sections/sectors";
 import { NfcTeaser } from "@/components/sections/nfc-teaser";
 import { WhyVoyo } from "@/components/sections/why-voyo";
 import { TeamPreview } from "@/components/sections/team-preview";
@@ -19,6 +20,7 @@ export default function Home() {
         <Hero />
         <NfcTeaser />
         <Services />
+        <Sectors />
         <Stats />
         <WhyVoyo />
         <TeamPreview />

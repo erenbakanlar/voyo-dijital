@@ -64,7 +64,7 @@ export function SiteFooter() {
             Sektörler
           </h3>
           <ul className="flex flex-col gap-2.5">
-            {sectorPages.map((s) => (
+            {sectorPages.slice(0, 8).map((s) => (
               <li key={s.slug}>
                 <Link
                   href={`/sektorler/${s.slug}`}
@@ -74,6 +74,14 @@ export function SiteFooter() {
                 </Link>
               </li>
             ))}
+            <li>
+              <Link
+                href="/sektorler"
+                className="text-sm font-medium text-voyo-orange-ink transition-colors hover:text-voyo-orange"
+              >
+                Tüm Sektörler →
+              </Link>
+            </li>
           </ul>
         </div>
 
