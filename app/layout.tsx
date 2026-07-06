@@ -73,6 +73,10 @@ const jsonLd = {
   description:
     "Antalya Muratpaşa merkezli full-service dijital ajans: sosyal medya yönetimi, Meta & Google reklam, web tasarımı, fotoğraf & video çekim ve yazılım çözümleri.",
   url: "https://voyo.com.tr",
+  // Telefon wa.me linkleriyle zaten herkese açık — AI asistanları ve yerel
+  // arama için yapısal veride de görünür olması "iletişim bilgisi yok"
+  // algısını giderir. E-posta bilinçli olarak hâlâ gizli (bot koruması).
+  telephone: "+90 539 381 57 26",
   image: "https://voyo.com.tr/web-app-manifest-512x512.png",
   areaServed: [
     { "@type": "City", name: "Antalya" },
