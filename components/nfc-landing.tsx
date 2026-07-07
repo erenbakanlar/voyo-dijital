@@ -1,7 +1,6 @@
-import { ArrowUpRight, Star } from "lucide-react";
+import { ArrowUpRight, MessageSquareText, Star } from "lucide-react";
 import { Reveal } from "@/components/reveal";
 import { WhatsappIcon } from "@/components/icons/social";
-import { GoogleLogo } from "@/components/icons/google";
 import { nfcProducts, whatsappWithMessage } from "@/lib/site-data";
 
 const steps = [
@@ -41,7 +40,7 @@ export function NfcLanding() {
 
         {/* Hero */}
         <div className="mx-auto flex max-w-3xl flex-col items-center text-center">
-          <GoogleLogo className="h-11 w-auto sm:h-12" />
+          <MessageSquareText className="size-11 text-voyo-blue sm:size-12" />
           <div
             className="mt-3 flex items-center gap-0.5"
             role="img"
@@ -64,6 +63,10 @@ export function NfcLanding() {
             NFC standı, kartı ya da yapıştırmalı karesini işletmenize koyun;
             müşteriniz telefonunu dokundursun, doğrudan Google yorum sayfanız
             açılsın. Tüm ürünler pleksi malzemeden üretilir.
+          </p>
+          <p className="mt-2 text-xs text-muted-foreground/70">
+            VOYO Dijital&apos;in bağımsız bir ürünüdür; Google LLC ile iş
+            ortaklığı veya onay ilişkisi bulunmamaktadır.
           </p>
           <a
             href={wa}

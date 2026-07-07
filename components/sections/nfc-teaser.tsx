@@ -1,7 +1,6 @@
 import Link from "next/link";
-import { ArrowUpRight, Star } from "lucide-react";
+import { ArrowUpRight, MessageSquareText, Star } from "lucide-react";
 import { Reveal } from "@/components/reveal";
-import { GoogleLogo } from "@/components/icons/google";
 
 /**
  * Anasayfaya iliştirilen NFC ürün tanıtım bandı (teaser). Ajans bölümlerinden
@@ -19,7 +18,7 @@ export function NfcTeaser() {
             <div className="flex flex-col items-center gap-6 text-center md:flex-row md:justify-between md:gap-10 md:text-left">
               <div className="flex flex-col items-center gap-3 md:items-start">
                 <div className="flex items-center gap-3">
-                  <GoogleLogo className="h-6 w-auto" />
+                  <MessageSquareText className="size-6 text-voyo-blue" />
                   <div
                     className="flex gap-0.5"
                     role="img"
@@ -41,7 +40,8 @@ export function NfcTeaser() {
                 </h2>
                 <p className="max-w-md text-pretty text-sm leading-relaxed text-muted-foreground sm:text-base">
                   NFC stand, kart ve yapıştırmalı kare — müşteriniz telefonunu
-                  dokundursun, doğrudan Google yorum sayfanız açılsın.
+                  dokundursun, doğrudan Google yorum sayfanız açılsın. Bağımsız
+                  bir üründür; Google LLC ile iş ortaklığı yoktur.
                 </p>
               </div>
 
